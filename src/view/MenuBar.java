@@ -3,9 +3,12 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class MenuBar extends JMenuBar {
     private EditorView view;
+    private JMenuItem undoItem;
+    private JMenuItem redoItem;
     public MenuBar(EditorView view){
         this.view = view;
         createMenus();
@@ -17,32 +20,38 @@ public class MenuBar extends JMenuBar {
     }
     private JMenu createFileMenu(){
         JMenu fileMenu = new JMenu("File");
-        addMenuItem(fileMenu,"New",e -> view.getController().newFile());
-        addMenuItem(fileMenu,"Open",e -> view.getController().openFile());
-        addMenuItem(fileMenu,"Save",e -> view.getController().saveFile());
-        addMenuItem(fileMenu,"Save As",e -> view.getController().saveFileAs());
+        addMenuItem(fileMenu,"New",KeyEvent.VK_N,e -> view.getController().newFile());
+        addMenuItem(fileMenu,"Open",KeyEvent.VK_O,e -> view.getController().openFile());
+        addMenuItem(fileMenu,"Save",KeyEvent.VK_S,e -> view.getController().saveFile());
+        addMenuItem(fileMenu,"Save As",KeyEvent.VK_A,e -> view.getController().saveFileAs());
         fileMenu.addSeparator();
-        addMenuItem(fileMenu,"Exit",e ->System.exit(0));
+        addMenuItem(fileMenu,"Exit",KeyEvent.VK_X,e ->System.exit(0));
         return fileMenu;
     }
-    private JMenu createdEditMenu(){
+    private JMenu createEditMenu(){
         JMenu editMenu = new JMenu("Edit");
-        addMenuItem(editMenu, "Undo", e->view.getController().undo());
-        addMenuItem(editMenu, "Redo", e->view.getController().redo());
+        editMenu.setMnemonic(KeyEvent.VK_E);
+        undoItem = addMenuItem(editMenu, "Undo",KeyEvent.VK_Z, e->view.getController().undo());
+        redoItem = addMenuItem(editMenu, "Redo",KeyEvent.VK_Y, e->view.getController().redo());
         editMenu.addSeparator();
-        addMenuItem(editMenu,"Cut",e ->view.getTextArea().cut());
-        addMenuItem(editMenu,"Copy",e ->view.getTextArea().copy());
-        addMenuItem(editMenu,"Paste",e ->view.getTextArea().paste());
+        addMenuItem(editMenu,"Cut",KeyEvent.VK_X,e ->view.getTextArea().cut());
+        addMenuItem(editMenu,"Copy",KeyEvent.VK_C,e ->view.getTextArea().copy());
+        addMenuItem(editMenu,"Paste",KeyEvent.VK_V,e ->view.getTextArea().paste());
+        undoItem.setEnabled(false);
+        redoItem.setEnabled(false);
         return editMenu;
     }
     private JMenu createSearchMenu(){
         JMenu searchMenu = new JMenu("Search");
-        addMenuItem(searchMenu,"Find/Replace",e-> view.showFindReplaceDialog());
+        searchMenu.setMnemonic(KeyEvent.VK_S);
+        addMenuItem(searchMenu,"Find/Replace",KeyEvent.VK_F,e-> view.showFindReplaceDialog());
         return searchMenu;
     }
-    private void addMenuItem(JMenu menu, String label, ActionListener listener){
+    private JMenuItem addMenuItem(JMenu menu, String label, int mnemonic, ActionListener listener){
         JMenuItem menuItem = new JMenuItem(label);
+        menuItem.setMnemonic(mnemonic);
         menuItem.addActionListener(listener);
         menu.add(menuItem);
+        return menuItem;
     }
 }
