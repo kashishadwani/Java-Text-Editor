@@ -54,4 +54,8 @@ public class MenuBar extends JMenuBar {
         menu.add(menuItem);
         return menuItem;
     }
+    public void enableUndoRedo(boolean canUndo, boolean canRedo) {
+        undoItem.setEnabled(canUndo);
+        redoItem.setEnabled(canRedo);
+    }
 }

@@ -1,7 +1,6 @@
 package Java_Text_Editor.model;
 
-import javax.swing.text.StyleContext;
-import java.awt.Color;
+import java.awt.*;
 import java.util.regex.Pattern;
 
 public class SyntaxHighlighter {
@@ -19,5 +18,6 @@ public class SyntaxHighlighter {
     public static Color getKeywordColor(){
         return Color.BLUE;
     }
+
 
 }

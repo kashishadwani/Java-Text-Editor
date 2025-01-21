@@ -14,9 +14,9 @@ public class ToolBar extends JToolBar{
         createButtons();
     }
     private void createButtons(){
-        addButton("New", e-> view.getController().newFile());
-        addButton("Open", e-> view.getController().openFile());
-        addButton("Save", e-> view.getController().saveFile());
+        addButton("New","Create new file", e-> view.getController().newFile());
+        addButton("Open","Open file", e-> view.getController().openFile());
+        addButton("Save","Save file", e-> view.getController().saveFile());
         addSeparator();
         undoButton = addButton("Undo","Undo last action", e-> view.getController().undo());
         redoButton = addButton("Redo","Redo last action", e-> view.getController().redo());

@@ -12,8 +12,11 @@ public class EditorController {
     public EditorController(Document document, EditorView view){
         this.document = document;
         this.view = view;
-        this.undoRedoHandeler = new UndoRedoHandeler();
+        this.undoRedoHandeler = new UndoRedoHandeler(this);
         initializeListeners();
+    }
+    public UndoRedoHandeler getUndoRedoHandeler(){
+        return undoRedoHandeler;
     }
     private void initializeListeners(){
         view.getTextArea().getDocument().addUndoableEditListener(undoRedoHandeler);
@@ -42,7 +45,7 @@ public class EditorController {
     }
     public void newFile(){
         if (document.isModified()){
-            int response = view.showSaveDialog();
+            int response = view.showConfirmDialog("Do you want to save changes?");
             if (response==JOptionPane.YES_OPTION){
                 saveFile();
             } else if (response == JOptionPane.CANCEL_OPTION) {

@@ -10,13 +10,13 @@ import java.awt.event.WindowEvent;
 
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 
-public class EditorView extends Component {
+public class EditorView extends JFrame {
     private JTextArea textArea;
     private JFileChooser fileChooser;
     private EditorController controller;
     private FindReplaceHandler findReplaceHandler;
     private MenuBar menuBar;
-    private JToolBar toolBar;
+    private ToolBar toolBar;
 
     public EditorView(){
         setTitle("Advanced Text Editor");
@@ -58,11 +58,14 @@ public class EditorView extends Component {
         setJMenuBar(menuBar);
         add(toolBar,BorderLayout.NORTH);
     }
-    
+
 
     public void setController(EditorController controller){
         this.controller = controller;
         initializeMenuAndToolbar();
+    }
+    public EditorController getController(){
+        return controller;
     }
     public JTextArea getTextArea(){
         return textArea;
@@ -94,7 +97,9 @@ public class EditorView extends Component {
     }
     public int showConfirmDialog(String message){
         return JOptionPane.showConfirmDialog(
-                this, message,"Confirmation",
+                this,
+                message,
+                "Confirmation",
                 JOptionPane.YES_NO_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE
         );
@@ -141,6 +146,6 @@ public class EditorView extends Component {
     }
     public void enableUndoRedo(boolean canUndo, boolean canRedo){
         menuBar.enableUndoRedo(canUndo, canRedo);
-        toolBar.enableUndoRedo(canUndo, canRedo);
+        toolBar.enableUndoRedo(canUndo,canRedo);
     }
 }
